@@ -9,6 +9,7 @@ import { HighlightRenderer } from "./HighlightRenderer";
 import { HighlightPopoverProvider } from "./HighlightPopover";
 import { HighlightColorKey } from "@/constants/highlights";
 import { cn } from "@/lib/utils";
+import { useHighlightShortcuts } from "@/hooks/highlights/use-highlight-shortcuts";
 
 interface HighlightContainerProps {
   topicId: string;
@@ -37,6 +38,13 @@ export const HighlightContainer: React.FC<HighlightContainerProps> = ({
   // Highlighting state and storage
   const state = useHighlightState();
   const storage = useHighlightStorage(topicId, lessonId, state.activeColor);
+
+  // Add keyboard shortcuts
+  useHighlightShortcuts({
+    onUndo: storage.undo,
+    onRedo: storage.redo,
+    enabled: state.isEnabled,
+  });
 
   // Handle text selection for new highlights
   const handleSelection = useHighlightSelection({
@@ -78,6 +86,10 @@ export const HighlightContainer: React.FC<HighlightContainerProps> = ({
           activeColor={state.activeColor}
           onColorChange={state.setActiveColor}
           highlightsCount={storage.highlights.length}
+          canUndo={storage.canUndo}
+          canRedo={storage.canRedo}
+          onUndo={storage.undo}
+          onRedo={storage.redo}
         />
 
         {/* Content with highlights */}

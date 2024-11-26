@@ -10,3 +10,14 @@ export interface TextHighlight {
   createdAt: string;
   text?: string; // Optional since we reconstruct it from DOM
 }
+
+export type HighlightHistoryAction = {
+  type: 'ADD' | 'REMOVE' | 'UPDATE';
+  highlight: TextHighlight;
+  previousHighlight?: TextHighlight; // For updates
+};
+
+export type HighlightHistory = {
+  past: HighlightHistoryAction[];
+  future: HighlightHistoryAction[];
+};

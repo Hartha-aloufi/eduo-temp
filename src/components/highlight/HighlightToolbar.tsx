@@ -1,7 +1,7 @@
 // components/highlight/HighlightToolbar.tsx
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Highlighter, ChevronDown } from "lucide-react";
+import { Highlighter, ChevronDown, Undo2, Redo2 } from "lucide-react";
 import { CollapsibleToolbar } from "./CollapsibleToolbar";
 import { ColorPicker } from "./ColorPicker";
 import { HIGHLIGHT_COLORS, HighlightColorKey } from "@/constants/highlights";
@@ -12,6 +12,10 @@ interface HighlightToolbarProps {
   activeColor: HighlightColorKey;
   onColorChange: (color: HighlightColorKey) => void;
   highlightsCount: number;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
 }
 
 /**
@@ -24,6 +28,10 @@ export const HighlightToolbar: React.FC<HighlightToolbarProps> = ({
   activeColor,
   onColorChange,
   highlightsCount,
+  canUndo,
+  canRedo,
+  onUndo,
+  onRedo,
 }) => {
   // Create the content for the pull tab
   const pullTabContent = (
@@ -77,6 +85,29 @@ export const HighlightToolbar: React.FC<HighlightToolbarProps> = ({
             <span>لا توجد تظليلات</span>
           )}
         </div>
+      )}
+
+      {isEnabled && (
+        <>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onUndo}
+            disabled={!canUndo}
+            className="h-8 w-8"
+          >
+            <Undo2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onRedo}
+            disabled={!canRedo}
+            className="h-8 w-8"
+          >
+            <Redo2 className="h-4 w-4" />
+          </Button>
+        </>
       )}
     </CollapsibleToolbar>
   );
