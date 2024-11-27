@@ -1,5 +1,6 @@
-// types/highlight.ts
-import { HighlightColorKey } from '@/constants/highlights';
+// src/types/highlight.ts
+
+import { HighlightColorKey } from "@/constants/highlights";
 
 export interface TextHighlight {
   id: string;
@@ -8,13 +9,14 @@ export interface TextHighlight {
   elementId: string;
   color: HighlightColorKey;
   createdAt: string;
-  text?: string; // Optional since we reconstruct it from DOM
+  text?: string;
 }
 
 export type HighlightHistoryAction = {
-  type: 'ADD' | 'REMOVE' | 'UPDATE';
+  type: "ADD" | "REMOVE" | "UPDATE";
   highlight: TextHighlight;
-  previousHighlight?: TextHighlight; // For updates
+  previousHighlight?: TextHighlight;
+  timestamp: number; // Added for better tracking
 };
 
 export type HighlightHistory = {
